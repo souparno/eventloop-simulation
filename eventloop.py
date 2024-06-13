@@ -99,7 +99,6 @@ def send_data_periodically():
     client_socket.connect(('localhost', 12345))
     client_socket.sendall(b"Hello, World!")
     client_socket.close()
-    loop.set_timeout(send_data_periodically, 1)
 
 # Create a server socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -110,8 +109,8 @@ server_socket.listen()
 loop = EventLoop()
 loop.add_reader(server_socket, on_data_available)
 
-# Start sending data periodically
-loop.set_timeout(send_data_periodically, 1)
+# Start sending data periodically using set_interval
+loop.set_interval(send_data_periodically, 1)
 
 # Run the event loop (no separate thread, single-threaded operation)
 loop.start()
